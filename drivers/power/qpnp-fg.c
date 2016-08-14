@@ -1568,7 +1568,7 @@ static void soc_work_fn(struct work_struct *work)
 {	struct fg_chip *chip = container_of(work,
 				struct fg_chip,
 				soc_work.work);
-	pr_info("adjust_soc: s %d i %d v %d t %d\n",
+	pr_debug("adjust_soc: s %d i %d v %d t %d\n",
 			get_prop_capacity(chip),
 			get_sram_prop_now(chip, FG_DATA_CURRENT),
 			get_sram_prop_now(chip, FG_DATA_VOLTAGE),
@@ -5069,7 +5069,7 @@ static int fg_probe(struct spmi_device *spmi)
 	}
 
 	chip->last_soc = get_last_soc(chip);
-	pr_info("last soc %d\n", chip->last_soc);
+	pr_debug("last soc %d\n", chip->last_soc);
 	schedule_work(&chip->init_work);
 
 	pr_info("FG Probe success - FG Revision DIG:%d.%d ANA:%d.%d PMIC subtype=%d\n",
