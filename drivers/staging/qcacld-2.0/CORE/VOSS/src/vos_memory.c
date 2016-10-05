@@ -55,6 +55,7 @@
 #include "vos_trace.h"
 
 #ifdef CONFIG_WCNSS_MEM_PRE_ALLOC
+#include <net/cnss_prealloc.h>
 #ifdef CONFIG_CNSS
 #include <net/cnss.h>
 #else
