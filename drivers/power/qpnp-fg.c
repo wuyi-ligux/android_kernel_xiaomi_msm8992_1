@@ -1178,10 +1178,12 @@ static int get_prop_capacity(struct fg_chip *chip)
 
 	if (chip->battery_missing)
 		return MISSING_CAPACITY;
+#if 0
 	if (!chip->profile_loaded && !chip->use_otp_profile) {
 		pr_info("loading batt profile, return last soc\n");
 		return chip->last_soc;
 	}
+#endif
 	if (chip->soc_empty) {
 		if (fg_debug_mask & FG_POWER_SUPPLY)
 			pr_info_ratelimited("capacity: %d, EMPTY\n",
