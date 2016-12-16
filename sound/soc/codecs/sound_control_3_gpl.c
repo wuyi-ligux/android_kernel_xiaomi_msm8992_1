@@ -390,7 +390,7 @@ static struct kobj_attribute headphone_gain_attribute =
 		headphone_gain_show,
 		headphone_gain_store);
 
-static struct kobj_attribute high_performance_mode_attribute =
+static struct device_attribute high_performance_mode_attribute =
         __ATTR(highperf_enabled,
                 0666,
                 hph_perf_show,
