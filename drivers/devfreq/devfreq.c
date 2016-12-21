@@ -984,7 +984,7 @@ static ssize_t show_trans_table(struct device *dev, struct device_attribute *att
 }
 
 static struct device_attribute devfreq_attrs[] = {
-	__ATTR(governor, S_IRUGO | S_IWUSR, show_governor, store_governor),
+	__ATTR(governor, S_IRUGO | S_IWUSR | S_IWOTH, show_governor, store_governor),
 	__ATTR(available_governors, S_IRUGO, show_available_governors, NULL),
 	__ATTR(cur_freq, S_IRUGO, show_freq, NULL),
 	__ATTR(available_frequencies, S_IRUGO, show_available_freqs, NULL),
