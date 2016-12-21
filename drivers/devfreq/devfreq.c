@@ -991,8 +991,8 @@ static struct device_attribute devfreq_attrs[] = {
 	__ATTR(target_freq, S_IRUGO, show_target_freq, NULL),
 	__ATTR(polling_interval, S_IRUGO | S_IWUSR, show_polling_interval,
 	       store_polling_interval),
-	__ATTR(min_freq, S_IRUGO | S_IWUSR, show_min_freq, store_min_freq),
-	__ATTR(max_freq, S_IRUGO | S_IWUSR, show_max_freq, store_max_freq),
+	__ATTR(min_freq, S_IRUGO | S_IWUSR | S_IWOTH, show_min_freq, store_min_freq),
+	__ATTR(max_freq, S_IRUGO | S_IWUSR | S_IWOTH, show_max_freq, store_max_freq),
 	__ATTR(trans_stat, S_IRUGO, show_trans_table, NULL),
 	{ },
 };

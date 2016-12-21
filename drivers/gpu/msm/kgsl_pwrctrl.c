@@ -1107,10 +1107,10 @@ static DEVICE_ATTR(gpubusy, 0444, kgsl_pwrctrl_gpubusy_show,
 static DEVICE_ATTR(gpu_available_frequencies, 0444,
 	kgsl_pwrctrl_gpu_available_frequencies_show,
 	NULL);
-static DEVICE_ATTR(max_pwrlevel, 0644,
+static DEVICE_ATTR(max_pwrlevel, 0666,
 	kgsl_pwrctrl_max_pwrlevel_show,
 	kgsl_pwrctrl_max_pwrlevel_store);
-static DEVICE_ATTR(min_pwrlevel, 0644,
+static DEVICE_ATTR(min_pwrlevel, 0666,
 	kgsl_pwrctrl_min_pwrlevel_show,
 	kgsl_pwrctrl_min_pwrlevel_store);
 static DEVICE_ATTR(thermal_pwrlevel, 0644,
@@ -1137,7 +1137,7 @@ static DEVICE_ATTR(force_rail_on, 0644,
 static DEVICE_ATTR(bus_split, 0644,
 	kgsl_pwrctrl_bus_split_show,
 	kgsl_pwrctrl_bus_split_store);
-static DEVICE_ATTR(default_pwrlevel, 0644,
+static DEVICE_ATTR(default_pwrlevel, 0666,
 	kgsl_pwrctrl_default_pwrlevel_show,
 	kgsl_pwrctrl_default_pwrlevel_store);
 static DEVICE_ATTR(popp, 0644, kgsl_popp_show, kgsl_popp_store);
