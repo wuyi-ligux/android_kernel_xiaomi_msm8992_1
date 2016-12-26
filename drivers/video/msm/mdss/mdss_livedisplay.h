@@ -51,8 +51,6 @@ struct mdss_livedisplay_ctx {
 	bool aco_enabled;
 	bool ce_enabled;
 
-	unsigned int link_state;
-
 	unsigned int num_presets;
 	unsigned int caps;
 
