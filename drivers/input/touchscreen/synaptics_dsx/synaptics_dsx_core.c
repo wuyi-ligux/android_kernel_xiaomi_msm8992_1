@@ -4631,7 +4631,9 @@ static int synaptics_rmi4_fb_notifier_cb(struct notifier_block *self,
 					atomic_set(&wakeup_flag, 0);
 				}
 #endif
-			} else if (*transition == FB_BLANK_UNBLANK) {
+			} else if ((*transition == FB_BLANK_UNBLANK) ||
+				(*transition == FB_BLANK_VSYNC_SUSPEND &&
+				rmi4_data->suspend)) {
 				synaptics_rmi4_resume(&rmi4_data->pdev->dev);
 				rmi4_data->fb_ready = true;
 #ifdef TOUCH_WAKEUP_EVENT_RECORD
