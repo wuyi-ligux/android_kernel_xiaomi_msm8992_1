@@ -212,6 +212,8 @@ static int synaptics_rmi4_fb_notifier_cb(struct notifier_block *self,
 		unsigned long event, void *data);
 #endif
 
+static void synaptics_key_ctrl(struct synaptics_rmi4_data *rmi4_data, bool enable);
+
 #ifdef CONFIG_HAS_EARLYSUSPEND
 static void synaptics_rmi4_early_suspend(struct early_suspend *h);
 
@@ -758,6 +760,47 @@ static ssize_t synaptics_rmi4_0dbutton_show(struct device *dev,
 
 	return snprintf(buf, PAGE_SIZE, "%u\n",
 			rmi4_data->button_0d_enabled);
+}
+
+static void synaptics_key_ctrl(struct synaptics_rmi4_data *rmi4_data, bool enable)
+{
+	int retval;
+	unsigned char ii;
+	unsigned char intr_enable;
+	struct synaptics_rmi4_fn *fhandler;
+	struct synaptics_rmi4_device_info *rmi;
+
+	rmi = &(rmi4_data->rmi4_mod_info);
+
+	if (list_empty(&rmi->support_fn_list))
+		return ;
+
+	list_for_each_entry(fhandler, &rmi->support_fn_list, link) {
+		if (fhandler->fn_number == SYNAPTICS_RMI4_F1A) {
+			ii = fhandler->intr_reg_num;
+
+			retval = synaptics_rmi4_reg_read(rmi4_data,
+					rmi4_data->f01_ctrl_base_addr + 1 + ii,
+					&intr_enable,
+					sizeof(intr_enable));
+			if (retval < 0)
+				return ;
+
+			if (enable == true)
+				intr_enable |= fhandler->intr_mask;
+			else
+				intr_enable &= ~fhandler->intr_mask;
+
+			retval = synaptics_rmi4_reg_write(rmi4_data,
+					rmi4_data->f01_ctrl_base_addr + 1 + ii,
+					&intr_enable,
+					sizeof(intr_enable));
+			if (retval < 0)
+				return ;
+		}
+	}
+
+	return ;
 }
 
 static void synaptics_rmi4_0dbutton_update(struct synaptics_rmi4_data *rmi4_data,
@@ -1777,6 +1820,8 @@ static int synaptics_rmi4_int_enable(struct synaptics_rmi4_data *rmi4_data,
 			}
 		}
 	}
+
+	synaptics_key_ctrl(rmi4_data, enable && rmi4_data->button_0d_enabled);
 
 	return retval;
 }
@@ -4781,8 +4826,6 @@ static int synaptics_rmi4_suspend(struct device *dev)
 exit:
 	rmi4_data->suspend = true;
 
-	synaptics_rmi4_0dbutton_update(rmi4_data, !rmi4_data->button_0d_enabled);
-
 	return 0;
 }
 
@@ -4837,8 +4880,6 @@ static int synaptics_rmi4_resume(struct device *dev)
 
 		rmi4_data->suspend = false;
 	}
-
-	synaptics_rmi4_0dbutton_update(rmi4_data, !rmi4_data->button_0d_enabled);
 
 	return 0;
 }
