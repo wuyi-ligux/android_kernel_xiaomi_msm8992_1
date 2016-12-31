@@ -66,9 +66,7 @@
 #define ST_HUB_PAYLOAD_17BYTE				(17)
 
 
-#ifdef CONFIG_IIO_ST_HUB_ENABLE_WAKE_LOCK_SENSORS
 static struct wake_lock wakelock_suspend;
-#endif
 
 static const u8 lsm6db0_fw[] = {
 #include "lsm6db0.fw"
@@ -881,9 +879,7 @@ static int st_hub_read_sensors_data(struct st_hub_data *hdata,
 	}
 
 	if ((drdy_mask & ST_FIFO_WK_MASK) > 0) {
-#ifdef CONFIG_IIO_ST_HUB_ENABLE_WAKE_LOCK_SENSORS
 			wake_lock_timeout((struct wake_lock *)&wakelock_suspend, 200);
-#endif
 			index_table[num_sensors] = ST_FIFO_WK_INDEX;
 			data_byte += hdata->fifo_slot_size;
 			drdy_data_mask |= ST_FIFO_WK_MASK;
@@ -2017,9 +2013,7 @@ int st_sensor_hub_common_probe(struct st_hub_data *hdata)
 	mutex_init(&hdata->gpio_wake_lock);
 	mutex_init(&hdata->send_and_receive_lock);
 	spin_lock_init(&hdata->timestamp_lock);
-#ifdef CONFIG_IIO_ST_HUB_ENABLE_WAKE_LOCK_SENSORS
 	wake_lock_init((struct wake_lock *)&wakelock_suspend, WAKE_LOCK_SUSPEND, "lsm6db0-wakelock");
-#endif
 
 #ifdef CONFIG_OF
 	err = st_sensor_hub_parse_dt(hdata);
