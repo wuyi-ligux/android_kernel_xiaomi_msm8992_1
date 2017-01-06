@@ -3856,7 +3856,7 @@ static ssize_t fwu_sysfs_do_reflash_store(struct device *dev,
 
 	retval = count;
 
-reflash_store_free_exit::
+reflash_store_free_exit:
 	kfree(fwu->ext_data_source);
 	fwu->ext_data_source = NULL;
 	fwu->image = NULL;
